@@ -36,6 +36,7 @@ const LocationInput = () => {
         type="text"
         placeholder="Enter city name"
         value={city}
+        autoComplete={"off"}
         onChange={(e) => setCity(e.target.value)}
         className={
           "w-full bg-[#EAEAEA] px-12 py-2 text-center placeholder:text-[#004346] focus:outline-none"
@@ -59,16 +60,16 @@ const LocationInput = () => {
           ))}
         </ul>
       )}
-      <button
-        type={"submit"}
-        className={"absolute right-0 h-full w-[40px] bg-[#004346]"}
-      >
-        <img
-          className={"mx-auto my-0 w-full max-w-[25px]"}
-          src={search}
-          alt={"search"}
-        />
-      </button>
+      {/*<button*/}
+      {/*  type={"submit"}*/}
+      {/*  className={"absolute right-0 h-full w-[40px] bg-[#004346]"}*/}
+      {/*>*/}
+      {/*  <img*/}
+      {/*    className={"mx-auto my-0 w-full max-w-[25px]"}*/}
+      {/*    src={search}*/}
+      {/*    alt={"search"}*/}
+      {/*  />*/}
+      {/*</button>*/}
     </form>
   );
 };
