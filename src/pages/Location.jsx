@@ -17,7 +17,7 @@ const Location = () => {
         <h1 className={"absolute top-6 text-2xl text-[#004346]"}>
           Weather App
         </h1>
-        <div className={"flex w-full flex-col items-center"}>
+        <div className={"flex w-full flex-col items-center gap-3"}>
           <LocationInput />
           <div className={"relative max-w-[250px] text-xl text-[#004346]"}>
             <span

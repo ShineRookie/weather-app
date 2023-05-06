@@ -1,43 +1,26 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import search from "../assets/search.svg";
+import { useNavigate } from "react-router-dom";
+import { LocationContext } from "../context/LocationContext.jsx";
 
 const LocationInput = () => {
-  const [city, setCity] = useState("");
-  const [suggestions, setSuggestions] = useState([]);
+  const { currentCity, setCurrentCity, suggestions } =
+    useContext(LocationContext);
+  const navigate = useNavigate();
 
-  const apiKey = import.meta.env.VITE_WEATHER_API;
-  const request = `https://api.weatherapi.com/v1/current.json?key=${apiKey}&q=${city}`;
-
-  useEffect(() => {
-    if (city.length > 1) {
-      fetch(request)
-        .then((response) => response.json())
-        .then((data) =>
-          data.location ? setSuggestions([data.location]) : setSuggestions([])
-        )
-        .catch((e) => console.log(e));
-    } else {
-      setSuggestions([]);
-    }
-  }, [city]);
-
-  console.log(suggestions);
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
+  const handleClick = (cityValue) => {
+    setCurrentCity(cityValue);
+    navigate("weather");
   };
 
   return (
-    <form
-      onSubmit={handleSubmit}
-      className={"relative flex w-full max-w-[400px] shadow-input"}
-    >
+    <div className={"relative flex w-full max-w-[400px] shadow-input"}>
       <input
         type="text"
         placeholder="Enter city name"
-        value={city}
+        value={currentCity}
         autoComplete={"off"}
-        onChange={(e) => setCity(e.target.value)}
+        onChange={(e) => setCurrentCity(e.target.value)}
         className={
           "w-full bg-[#EAEAEA] px-12 py-2 text-center placeholder:text-[#004346] focus:outline-none"
         }
@@ -46,10 +29,7 @@ const LocationInput = () => {
         <ul className={"absolute top-10 z-40 w-full text-white "}>
           {suggestions.map((suggestion) => (
             <li
-              onClick={() => {
-                setCity(suggestion.name);
-                setSuggestions([]);
-              }}
+              onClick={() => handleClick(suggestion.name)}
               key={suggestion.name}
               className={
                 "h-full w-full cursor-pointer bg-[#004346] px-3 py-2 transition-all hover:bg-[#508991]"
@@ -70,7 +50,7 @@ const LocationInput = () => {
       {/*    alt={"search"}*/}
       {/*  />*/}
       {/*</button>*/}
-    </form>
+    </div>
   );
 };
 
