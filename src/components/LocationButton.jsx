@@ -1,9 +1,6 @@
-import React, { useContext } from "react";
-import { LocationContext } from "../context/LocationContext.jsx";
 import { useNavigate } from "react-router-dom";
 
-const LocationButton = () => {
-  const { currentCity, setCurrentCity } = useContext(LocationContext);
+const LocationButton = ({ setCity }) => {
   const navigate = useNavigate();
 
   const handleLocation = () => {
@@ -12,11 +9,11 @@ const LocationButton = () => {
         (position) => {
           const latitude = position.coords.latitude;
           const longitude = position.coords.longitude;
-          setCurrentCity(latitude + "," + longitude);
+          setCity(`${latitude},${longitude}`);
           navigate("weather");
         },
         (error) => {
-          console.error("Error getting location:", error);
+          console.error(error);
         }
       );
     } else {
@@ -25,11 +22,11 @@ const LocationButton = () => {
   };
 
   return (
-    <div className={"flex w-full max-w-[400px] shadow-input"}>
+    <div className={"flex w-full max-w-[400px] "}>
       <button
         onClick={handleLocation}
         className={
-          "h-full w-full bg-[#004346] px-12 py-2 text-white focus:outline-none active:scale-95"
+          "w-full rounded bg-blue-700 px-2 py-2 text-white shadow-xl focus:outline-none active:scale-95"
         }
       >
         Define a city automatically

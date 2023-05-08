@@ -1,11 +1,28 @@
 import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
 import Location from "./pages/Location.jsx";
 import Weather from "./pages/Weather.jsx";
-import { useContext, useState } from "react";
-import { LocationContext } from "./context/LocationContext.jsx";
+import { useEffect, useState } from "react";
 
 function App() {
-  const { currentCity } = useContext(LocationContext);
+  const [currentCity, setCurrentCity] = useState("");
+  const [suggestions, setSuggestions] = useState([]);
+
+  const apiKey = import.meta.env.VITE_WEATHER_API;
+  const request = `https://api.weatherapi.com/v1/current.json?key=${apiKey}&q=${currentCity}`;
+
+  useEffect(() => {
+    if (currentCity.length > 1) {
+      fetch(request)
+        .then((response) => response.json())
+        .then((data) =>
+          data.location ? setSuggestions([data.location]) : setSuggestions([])
+        )
+        .catch((e) => console.log(e));
+    } else {
+      setSuggestions([]);
+    }
+  }, [currentCity]);
+
   const ProtectedRoute = ({ children }) => {
     if (!currentCity) {
       return <Navigate to={"/"} />;
@@ -17,12 +34,25 @@ function App() {
     <BrowserRouter>
       <Routes>
         <Route path={"/"}>
-          <Route index element={<Location />} />
+          <Route
+            index
+            element={
+              <Location
+                city={currentCity}
+                setCity={setCurrentCity}
+                suggestions={suggestions}
+              />
+            }
+          />
           <Route
             path={"weather"}
             element={
               <ProtectedRoute>
-                <Weather />
+                <Weather
+                  city={currentCity}
+                  setCity={setCurrentCity}
+                  request={request}
+                />
               </ProtectedRoute>
             }
           />

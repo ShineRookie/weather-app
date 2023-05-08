@@ -1,45 +1,41 @@
 import LocationInput from "../components/LocationInput.jsx";
 import LocationButton from "../components/LocationButton.jsx";
-import pic from "../assets/Group.svg";
 
-const Location = () => {
+const Location = ({ city, setCity, suggestions }) => {
   return (
     <div
       className={
-        "relative flex h-screen w-screen flex-col items-center justify-center"
+        "flex h-screen w-screen items-center justify-center bg-gradient-to-r from-sky-500 to-indigo-500 font-bold"
       }
     >
       <div
         className={
-          "relative z-30 flex h-[300px] w-[500px] flex-col items-center justify-center rounded-[12px] shadow-3xl"
+          "relative flex w-1/3 flex-col items-center justify-center rounded-2xl bg-blue-400 p-3 shadow-2xl"
         }
       >
-        <h1 className={"absolute top-6 text-2xl text-[#004346]"}>
-          Weather App
-        </h1>
+        <h1 className={"mb-5 text-2xl"}>Weather App</h1>
         <div className={"flex w-full flex-col items-center gap-3"}>
-          <LocationInput />
-          <div className={"relative max-w-[250px] text-xl text-[#004346]"}>
+          <LocationInput
+            city={city}
+            setCity={setCity}
+            suggestions={suggestions}
+          />
+          <div className={"relative max-w-[250px] text-xl"}>
             <span
               className={
-                "before:absolute before:right-[40px] before:top-1/2 before:h-[2px] before:w-[100px] before:bg-[#EAEAEA] before:content-['']"
+                "absolute right-[40px] top-1/2 h-[2px] w-[100px] bg-white"
               }
             ></span>
             or
             <span
               className={
-                "after:absolute after:left-[40px] after:top-1/2 after:h-[2px] after:w-[100px] after:bg-[#EAEAEA] after:content-['']"
+                "absolute left-[40px] top-1/2 h-[2px] w-[100px] bg-white"
               }
             ></span>
           </div>
-          <LocationButton />
+          <LocationButton setCity={setCity} />
         </div>
       </div>
-      <img
-        src={pic}
-        alt={"image"}
-        className={"absolute bottom-0 left-0 z-20"}
-      />
     </div>
   );
 };

@@ -1,12 +1,10 @@
-import { useContext, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import back from "../assets/back.svg";
 import location from "../assets/location.svg";
-import { LocationContext } from "../context/LocationContext.jsx";
 
-const Weather = () => {
+const Weather = ({ city, setCity, request }) => {
   const [weatherData, setWeatherData] = useState(null);
-  const { currentCity, setCurrentCity, request } = useContext(LocationContext);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -16,53 +14,56 @@ const Weather = () => {
         const data = await response.json();
         setWeatherData(data);
       } catch (error) {
-        console.error("Ошибка при выполнении запроса", error);
+        console.error(error);
       }
     };
 
-    fetchData();
-  }, [currentCity]);
+    return () => fetchData();
+  }, [city]);
 
   console.log(weatherData);
 
   return (
     <div
       className={
-        "relative flex h-screen w-screen items-center justify-center text-white"
+        "flex h-screen w-screen items-center justify-center bg-gradient-to-r from-sky-500 to-indigo-500 font-bold text-white"
       }
     >
       {weatherData ? (
         <div
           className={
-            "relative flex h-1/2 w-1/3 flex-col items-center justify-start rounded-[12px] bg-[#172A3A] p-5"
+            "relative flex w-1/3 flex-col items-center rounded-2xl bg-blue-400 p-3 shadow-2xl"
           }
         >
           <button
             onClick={() => {
-              setCurrentCity("");
+              setCity("");
               navigate("/");
             }}
             className={"absolute left-5 top-5 transition-all hover:scale-95"}
           >
             <img src={back} alt={"back"} />
           </button>
-          <h1 className={"text-4xl"}>Weather App</h1>
-          <div className={"mt-12 flex items-center gap-5 text-2xl"}>
+          <h1 className={"mb-5 text-4xl"}>Weather App</h1>
+          <div className={"flex gap-5 text-2xl"}>
             <img src={location} alt={"location"} />
             {weatherData.location.name}
           </div>
-          <div className={"mt-5 flex flex-col"}>
+          <div className={"flex"}>
             <img
+              className={"w-36"}
               src={weatherData.current.condition.icon}
               alt={"weather status"}
             />
-            <p className={"mt-3 text-center text-2xl"}>
-              {weatherData.current.condition.text}
-            </p>
+            <div className={"mt-4"}>
+              <p className={"text-center text-xl"}>
+                {weatherData.current.condition.text}
+              </p>
+              <p className={"mt-3 text-center text-5xl"}>
+                {weatherData.current.temp_c} C
+              </p>
+            </div>
           </div>
-          <div
-            className={"text-center text-6xl"}
-          >{`${weatherData.current.temp_c} C`}</div>
         </div>
       ) : (
         <div
