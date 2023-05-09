@@ -1,3 +1,5 @@
+import { WiHumidity, WiThermometer } from "react-icons/wi";
+import { BsWind } from "react-icons/bs";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import back from "../assets/back.svg";
@@ -32,7 +34,7 @@ const Weather = ({ city, setCity, request }) => {
       {weatherData ? (
         <div
           className={
-            "relative flex w-1/3 flex-col items-center rounded-2xl bg-blue-400 p-3 shadow-2xl"
+            "relative flex w-1/4 flex-col items-center rounded-2xl bg-blue-400 p-3 shadow-2xl"
           }
         >
           <button
@@ -44,7 +46,8 @@ const Weather = ({ city, setCity, request }) => {
           >
             <img src={back} alt={"back"} />
           </button>
-          <h1 className={"mb-5 text-4xl"}>Weather App</h1>
+          <h1 className={"text-4xl"}>Weather App</h1>
+          <h2 className={"mb-5 text-xl"}>{weatherData.current.last_updated}</h2>
           <div className={"flex gap-5 text-2xl"}>
             <img src={location} alt={"location"} />
             {weatherData.location.name}
@@ -60,19 +63,32 @@ const Weather = ({ city, setCity, request }) => {
                 {weatherData.current.condition.text}
               </p>
               <p className={"mt-3 text-center text-5xl"}>
-                {weatherData.current.temp_c} C
+                {weatherData.current.temp_c}
+                <span>°C</span>
               </p>
+            </div>
+          </div>
+          <div className={"flex w-full justify-between"}>
+            <div className={"flex items-center gap-2"}>
+              <WiHumidity className={"text-4xl"} />
+              {weatherData.current.humidity}%
+            </div>
+            <div className={"flex items-center gap-2"}>
+              <WiThermometer className={"text-4xl"} />
+              {weatherData.current.feelslike_c}°C
+            </div>
+            <div className={"flex items-center gap-2"}>
+              <BsWind className={"text-4xl"} />
+              {weatherData.current.wind_kph} kph
             </div>
           </div>
         </div>
       ) : (
         <div
           className={
-            "flex h-1/2 w-1/3 items-center justify-center rounded-[12px] bg-[#172A3A] p-5"
+            "h-[100px] w-[100px] animate-spin rounded-full border-[4px] border-solid border-[#f3f3f3] border-t-[#3498db]"
           }
-        >
-          <h1>Loading...</h1>
-        </div>
+        ></div>
       )}
     </div>
   );

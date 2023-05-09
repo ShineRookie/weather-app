@@ -2,6 +2,7 @@ import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
 import Location from "./pages/Location.jsx";
 import Weather from "./pages/Weather.jsx";
 import { useEffect, useState } from "react";
+import Link from "./components/Link.jsx";
 
 function App() {
   const [currentCity, setCurrentCity] = useState("");
@@ -33,7 +34,7 @@ function App() {
   return (
     <BrowserRouter>
       <Routes>
-        <Route path={"/"}>
+        <Route path={"/"} element={<Link />}>
           <Route
             index
             element={
