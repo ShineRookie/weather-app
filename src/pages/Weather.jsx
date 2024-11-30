@@ -8,20 +8,28 @@ import location from "../assets/location.svg";
 const Weather = ({ city, setCity, request }) => {
   const [weatherData, setWeatherData] = useState(null);
   const navigate = useNavigate();
+  const [error, setError] = useState(false);
 
   useEffect(() => {
     const fetchData = async () => {
       try {
         const response = await fetch(request);
+        if (!response.ok) throw new Error("Failed to fetch");
         const data = await response.json();
         setWeatherData(data);
+        setError(false);
       } catch (error) {
         console.error(error);
+        setError(true);
       }
     };
 
-    return () => fetchData();
-  }, [city]);
+    fetchData();
+  }, [request]);
+
+  if (error) {
+    return <p className="text-red-500">Failed to load weather data. Try again later.</p>;
+  }
 
   console.log(weatherData);
 
