@@ -14,11 +14,15 @@ function App() {
   useEffect(() => {
     if (currentCity.length > 1) {
       fetch(request)
-        .then((response) => response.json())
-        .then((data) =>
-          data.location ? setSuggestions([data.location]) : setSuggestions([])
-        )
-        .catch((e) => console.log(e));
+          .then((response) => response.json())
+          .then((data) => {
+            if (data.location) {
+              setSuggestions([data.location]);
+            } else {
+              setSuggestions([]);
+            }
+          })
+          .catch((e) => console.error("Error fetching data:", e));
     } else {
       setSuggestions([]);
     }
