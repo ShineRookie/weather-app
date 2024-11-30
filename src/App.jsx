@@ -8,7 +8,7 @@ function App() {
   const [currentCity, setCurrentCity] = useState("");
   const [suggestions, setSuggestions] = useState([]);
 
-  const apiKey = import.meta.env.VITE_WEATHER_API;
+  const apiKey = "9058e6b99f2142fcb34135435242911";
   const request = `https://api.weatherapi.com/v1/current.json?key=${apiKey}&q=${currentCity}`;
 
   useEffect(() => {
@@ -24,6 +24,7 @@ function App() {
     }
   }, [currentCity]);
 
+  // eslint-disable-next-line react/prop-types
   const ProtectedRoute = ({ children }) => {
     if (!currentCity) {
       return <Navigate to={"/"} />;
